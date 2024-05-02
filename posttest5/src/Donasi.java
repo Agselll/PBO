@@ -9,7 +9,6 @@ abstract class Donasi {
     public String getNama() {
         return nama;
     }
-
     public abstract String toString();
 }
 

@@ -1,9 +1,17 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class App {
+interface DonasiService {
+    void tampilkanStatistikDonasi();
+    int hitungTotalDonasi();
+}
+
+
+public class App implements DonasiService{
     static ArrayList<Donasi> dataDonasi = new ArrayList<>();
     static Scanner scanner = new Scanner(System.in);
+    static int totalDonasi = 0; // Variabel static untuk menyimpan jumlah total donasi
 
     public static void main(String[] args) {
 
@@ -13,7 +21,8 @@ public class App {
             System.out.println("2. Tambah Donasi");
             System.out.println("3. Update Donasi");
             System.out.println("4. Hapus Donasi");
-            System.out.println("5. Keluar");
+            System.out.println("5. Tampilkan Statistik Donasi");
+            System.out.println("6. Keluar");
             System.out.print("Pilih menu: ");
             int pilihan = scanner.nextInt();
             scanner.nextLine();  // Membersihkan buffer
@@ -32,6 +41,9 @@ public class App {
                     hapusDonasi();
                     break;
                 case 5:
+                    tampilkanStatistikDonasi(); // Memanggil method dari interface
+                    break;
+                case 6:
                     System.out.println("Terima kasih telah menggunakan program donasi.");
                     System.exit(0);
                 default:
@@ -89,6 +101,10 @@ public class App {
         } else {
             System.out.println("Pilihan tidak valid. Donasi gagal ditambahkan.");
         }
+        catch (InputMismatchException e) {
+        System.out.println("Input tidak valid. Harap masukkan angka.");
+        scanner.nextLine(); // Membersihkan buffer
+    }
     }
 
     public static void tampilkanDonasi() {
@@ -165,5 +181,17 @@ public class App {
 
         dataDonasi.remove(nomor - 1);
         System.out.println("Data donasi berhasil dihapus.");
+    }
+
+    // Implementasi method dari interface DonasiService
+    @Override
+    public void tampilkanStatistikDonasi() {
+        System.out.println("Total Donasi: " + totalDonasi);
+    }
+
+    // Implementasi method dari interface DonasiService
+    @Override
+    public int hitungTotalDonasi() {
+        return totalDonasi;
     }
 }
